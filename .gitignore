@@ -21,4 +21,4 @@ pnpm-debug.log*
 .DS_Store
 
 #DLed pages for development
-pages-dl/
+.pages-dl/
