@@ -1,0 +1,27 @@
+---
+const { title = "", rows = 1, cols = 1, color } = Astro.props;
+---
+
+<li class="relative h-full w-full min-h-60">
+  <div
+    class:list={[
+      " h-full group bg-stone-300 flex justify-center items-center p-6 ",
+      {
+        "md:col-span-2": cols === "2",
+        "md:col-span-2 lg:col-span-3": cols === "3",
+        "md:row-span-2": rows === "2",
+        "md:row-span-2 lg:row-span-3": rows === "3",
+      },
+    ]}
+  >
+    <div
+      class="h-full w-full bg-red-400 opacity-0 m-auto group-hover:opacity-50 transition-opacity duration-200"
+    >
+    </div>
+  </div>
+  <h4
+    class="mx-auto w-full mt-3 text-xl font-bold text-neutral-900 uppercase text-center"
+  >
+    {title}
+  </h4>
+</li>

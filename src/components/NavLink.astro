@@ -1,0 +1,16 @@
+---
+interface props {
+  text: string;
+  link: string;
+}
+const { text, link } = Astro.props;
+---
+
+<a
+  class:list={[
+    "hover:text-primary text-neutral-900 ",
+    { "text-primary": Astro.url.pathname === link },
+  ]}
+  href={link}
+  >{text}
+</a>
