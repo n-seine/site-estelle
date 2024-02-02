@@ -1,0 +1,43 @@
+---
+import { useStoryblokApi } from "@storyblok/astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import Layout from "../layouts/Layout.astro";
+import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
+import PageTitle from "../components/PageTitle.astro";
+
+export async function getStaticPaths() {
+  const sbApi = useStoryblokApi();
+
+  const { data } = await sbApi.get("cdn/stories", {
+    content_type: "project",
+    version: import.meta.env.DEV ? "draft" : "published",
+  });
+
+  const stories = Object.values(data.stories);
+  return stories.map((story) => {
+    return {
+      params: { slug: story.slug },
+    };
+  });
+}
+
+const sbApi = useStoryblokApi();
+const { slug } = Astro.params;
+console.log("slug", slug);
+
+const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
+  version: import.meta.env.DEV ? "draft" : "published",
+});
+console.log("data", data);
+// const story = data.story;
+// console.log("story", story);
+---
+
+<Layout title={data.story.name}>
+  <PageTitle content={data.story.name} />
+  <article
+    class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
+  >
+    <ProjectDetails blok={data.story.content.details[0]} />
+  </article>
+</Layout>

@@ -1,0 +1,17 @@
+---
+import { storyblokEditable, renderRichText } from "@storyblok/astro";
+const { blok } = Astro.props;
+console.log("blok", blok);
+---
+
+<div>
+  <img src={blok.mainVisual.filename} alt="jhkjh" />
+  {
+    blok.content.map((section) => (
+      <section>
+        <h3>{section.title}</h3>
+        <div set:html={renderRichText(section.content)} />
+      </section>
+    ))
+  }
+</div>

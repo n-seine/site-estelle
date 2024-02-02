@@ -13,5 +13,5 @@ export default {
       colors: { primary: "#e06d5e" },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

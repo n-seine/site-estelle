@@ -1,27 +1,57 @@
 ---
-const { title = "", rows = 1, cols = 1, color } = Astro.props;
+import { Image } from "astro:assets";
+
+interface Props {
+  title: string;
+  featured: boolean;
+  image: string;
+  alt: string;
+  slug: string;
+  tags: string[];
+}
+const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
+
+console.log("asset", image);
 ---
 
-<li class="relative h-full w-full min-h-60">
-  <div
-    class:list={[
-      " h-full group bg-stone-300 flex justify-center items-center p-6 ",
-      {
-        "md:col-span-2": cols === "2",
-        "md:col-span-2 lg:col-span-3": cols === "3",
-        "md:row-span-2": rows === "2",
-        "md:row-span-2 lg:row-span-3": rows === "3",
-      },
-    ]}
-  >
+<li
+  class:list={[
+    " h-full group  items-center hover:cursor-pointer",
+    {
+      "md:col-span-2 lg:col-span-3": featured === true,
+    },
+  ]}
+>
+  <a href={`/${slug}`}>
     <div
-      class="h-full w-full bg-red-400 opacity-0 m-auto group-hover:opacity-50 transition-opacity duration-200"
+      class:list={[
+        "relative bg-blue-500 flex flex-col justify-center items-center h-60  ",
+      ]}
     >
+      <Image
+        src={`${image}/m/600x0`}
+        widths={[540, 720, 1080]}
+        height={240}
+        width="1200"
+        sizes={"(max-width: 720px) 540px,(max-width: 1024px) 720px, 1080px"}
+        alt={alt}
+        class="w-full h-full object-cover group-hover:saturate-0 transition-all duration-200"
+      />
+
+      <div
+        class="absolute bg-primary/0 top-6 left-6 right-6 bottom-6 group-hover:bg-primary/70 transition-all duration-200 flex items-center justify-center"
+      >
+        <p
+          class="text-base capitalize font-serif font-light italic text-stone-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        >
+          {tags.join(", ")}
+        </p>
+      </div>
     </div>
-  </div>
-  <h4
-    class="mx-auto w-full mt-3 text-xl font-bold text-neutral-900 uppercase text-center"
-  >
-    {title}
-  </h4>
+    <h4
+      class="mx-auto w-full mt-3 text-xl font-bold text-neutral-900 uppercase text-center"
+    >
+      {title}
+    </h4>
+  </a>
 </li>

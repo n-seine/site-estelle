@@ -1,20 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import PortfolioItem from "../components/PortfolioItem.astro";
+import { useStoryblokApi } from "@storyblok/astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import PageTitle from "../components/PageTitle.astro";
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get("cdn/stories/home", {
+  version: import.meta.env.DEV ? "draft" : "published",
+});
+
+console.log("data", data);
+const content = data.story.content;
 ---
 
 <Layout title="Estelle Chauvard - Autrice / Vidéaste / Graphiste">
-  <section class="mt-20 mx-auto flex flex-col items-center">
-    <h3
-      class="uppercase text-3xl px-28 font-extrabold pb-6 border-b-2 text-neutral-900 border-neutral-900 w-fit"
-    >
-      portfolio
-    </h3>
-
-    <ul
-      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-16 md:gap-12 w-full md:w-11/12 max-w-7xl mt-6 grid-flow-dense"
-    >
-      <PortfolioItem cols="3" title="Mon titre" />
+  <PageTitle content="portfolio" />
+  <StoryblokComponent blok={content} />
+  <ul
+    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense"
+  >
+    <!-- {
+      projects.map((project) => (
+        <PortfolioItem
+          title={project.title}
+          cols={project.coverImage.cols}
+          rows={project.coverImage.rows}
+          asset={project.coverImage}
+          alt={project.coverImage.alt}
+          slug={project.slug.current}
+        />
+      ))
+    } -->
+    <!-- <PortfolioItem cols="3" title="Mon titre" />
       <PortfolioItem title="Mon Projet" />
       <PortfolioItem />
       <PortfolioItem cols="2" />
@@ -22,7 +39,6 @@ import PortfolioItem from "../components/PortfolioItem.astro";
       <PortfolioItem cols="2" />
       <PortfolioItem />
       <PortfolioItem />
-      <PortfolioItem />
-    </ul>
-  </section>
+      <PortfolioItem /> -->
+  </ul>
 </Layout>

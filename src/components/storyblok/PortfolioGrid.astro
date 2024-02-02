@@ -1,0 +1,59 @@
+---
+import { storyblokEditable } from "@storyblok/astro";
+import { useStoryblokApi } from "@storyblok/astro";
+import PortfolioItem from "../PortfolioItem.astro";
+
+const storyblokApi = useStoryblokApi();
+
+const { data } = await storyblokApi.get("cdn/stories", {
+  version: import.meta.env.DEV ? "draft" : "published",
+  content_type: "project",
+});
+
+const rawProjects = data.stories.map((project) => {
+  return {
+    title: project.content.homeDisplay[0].title,
+    featured: project.content.homeDisplay[0].featured,
+    image: project.content.homeDisplay[0].coverPicture,
+    tags: project.tag_list,
+    slug: project.slug,
+  };
+});
+const featuredProject = rawProjects.find((project) => project.featured);
+const projects = rawProjects.filter(
+  (project) => project.slug !== featuredProject.slug
+);
+
+console.log("projects", projects);
+const { blok } = Astro.props;
+---
+
+<ul
+  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense"
+>
+  {
+    featuredProject && (
+      <PortfolioItem
+        title={featuredProject.title}
+        alt={featuredProject.image.alt}
+        image={featuredProject.image.filename}
+        featured={true}
+        slug={featuredProject.slug}
+        tags={featuredProject.tags}
+      />
+    )
+  }
+  {
+    projects.map((project) => (
+      <PortfolioItem
+        title={project.title}
+        alt={project.image.alt}
+        image={project.image.filename}
+        cols={3}
+        rows={1}
+        slug={project.slug}
+        tags={project.tags}
+      />
+    ))
+  }
+</ul>

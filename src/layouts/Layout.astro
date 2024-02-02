@@ -41,7 +41,9 @@ import Header from "../components/Header.astro";
     >
       <Header />
       <main class="w-full">
-        <slot />
+        <section class="mt-20 mx-auto flex flex-col items-center">
+          <slot />
+        </section>
       </main>
     </div>
   </body>
