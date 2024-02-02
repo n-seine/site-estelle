@@ -22,3 +22,5 @@ pnpm-debug.log*
 
 #DLed pages for development
 pages-dl/
+.pages-dl/
+
