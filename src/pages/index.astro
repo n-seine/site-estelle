@@ -9,7 +9,7 @@ const { data } = await storyblokApi.get("cdn/stories/home", {
   version: import.meta.env.DEV ? "draft" : "published",
 });
 
-console.log("data", data);
+// console.log("data", data);
 const content = data.story.content;
 ---
 

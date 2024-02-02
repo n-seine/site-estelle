@@ -1490,4 +1490,4 @@ function spreadAttributes(values = {}, _name, { class: scopedClassName } = {}) {
   return markHTMLString(output);
 }
 
-export { AstroError as A, ExpectedImage as E, Fragment as F, IncompatibleDescriptorOptions as I, LocalImageUsedWrongly as L, MissingImageDimension as M, UnsupportedImageFormat as U, UnsupportedImageConversion as a, MissingSharp as b, InvalidImageService as c, ExpectedImageOptions as d, createAstro as e, createComponent as f, ImageMissingAlt as g, addAttribute as h, renderComponent as i, renderHead as j, renderSlot as k, maybeRenderHead as m, renderTemplate as r, spreadAttributes as s, unescapeHTML as u };
+export { AstroError as A, ExpectedImage as E, IncompatibleDescriptorOptions as I, LocalImageUsedWrongly as L, MissingImageDimension as M, UnsupportedImageFormat as U, UnsupportedImageConversion as a, MissingSharp as b, InvalidImageService as c, ExpectedImageOptions as d, createAstro as e, createComponent as f, ImageMissingAlt as g, addAttribute as h, renderComponent as i, renderHead as j, renderSlot as k, maybeRenderHead as m, renderTemplate as r, spreadAttributes as s, unescapeHTML as u };

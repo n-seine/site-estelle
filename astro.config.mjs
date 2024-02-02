@@ -23,7 +23,6 @@ export default defineConfig({
     tailwind(),
     storyblok({
       accessToken: env.STORYBLOK_TOKEN,
-      enableFallbackComponent: true,
       components: {
         projectDetails: "components/storyblok/ProjectDetails",
         portfolioGrid: "components/storyblok/PortfolioGrid",

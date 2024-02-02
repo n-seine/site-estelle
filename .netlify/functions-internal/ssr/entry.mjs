@@ -1,17 +1,15 @@
 import { renderers } from './renderers.mjs';
-import { manifest } from './manifest_qEHhkvEE.mjs';
+import { manifest } from './manifest_GSVH_1fG.mjs';
 import * as serverEntrypointModule from '@astrojs/netlify/ssr-function.js';
 import { onRequest } from './_noop-middleware.mjs';
 
-const _page0 = () => import('./chunks/generic_aQOPUnI1.mjs');
-const _page1 = () => import('./chunks/index_KXpSJ7Vi.mjs');
-const _page2 = () => import('./chunks/blog_tVq7xbxz.mjs');
-const _page3 = () => import('./chunks/_slug__zvCSpgo0.mjs');
+const _page0 = () => import('./chunks/generic_Fk5wxsEu.mjs');
+const _page1 = () => import('./chunks/index_oNFHqfwY.mjs');
+const _page2 = () => import('./chunks/_slug__JW6-xtce.mjs');
 const pageMap = new Map([
     ["node_modules/astro/dist/assets/endpoint/generic.js", _page0],
     ["src/pages/index.astro", _page1],
-    ["src/pages/blog.astro", _page2],
-    ["src/pages/[slug].astro", _page3]
+    ["src/pages/[slug].astro", _page2]
 ]);
 
 const _manifest = Object.assign(manifest, {
