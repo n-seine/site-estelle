@@ -20,20 +20,15 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
     },
   ]}
 >
-  <a href={`/${slug}`}>
+  <a href={`/${slug}`} data-astro-prefetch>
     <div
-      class:list={[
-        "relative bg-blue-500 flex flex-col justify-center items-center h-60  ",
-      ]}
+      class:list={["relative flex flex-col justify-center items-center h-60  "]}
     >
-      <Image
-        src={`${image}/m/600x0`}
-        widths={[540, 720, 1080]}
-        height={240}
-        width="1200"
-        sizes={"(max-width: 720px) 540px,(max-width: 1024px) 720px, 1080px"}
+      <img
+        src={`${image}/m/1080x0`}
         alt={alt}
         class="w-full h-full object-cover group-hover:saturate-0 transition-all duration-200"
+        loading="lazy"
       />
 
       <div

@@ -1,6 +1,8 @@
 ---
 import { storyblokEditable, renderRichText } from "@storyblok/astro";
-const { blok } = Astro.props;
+import ClickableImage from "../ClickableImage.astro";
+const { blok, storyTitle } = Astro.props;
+console.log("storyName", storyTitle);
 ---
 
 <div>
@@ -10,6 +12,16 @@ const { blok } = Astro.props;
       <section>
         <h3>{section.title}</h3>
         <div set:html={renderRichText(section.content)} />
+        <ul class="grid-cols-3 grid gap-3">
+          {section.gallery.map((picture) => (
+            <li class="list-none m-0 p-0">
+              <ClickableImage
+                picture={picture}
+                alt={picture.alt || "Image illustrant le projet" + storyTitle}
+              />
+            </li>
+          ))}
+        </ul>
       </section>
     ))
   }

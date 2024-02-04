@@ -27,9 +27,9 @@ const { slug } = Astro.params;
 const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
   version: import.meta.env.DEV ? "draft" : "published",
 });
-// console.log("data", data);
-// const story = data.story;
-// console.log("story", story);
+console.log("data", data);
+const story = data.story;
+console.log("story", story);
 ---
 
 <Layout title={data.story.name}>
@@ -37,6 +37,9 @@ const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
   <article
     class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
   >
-    <ProjectDetails blok={data.story.content.details[0]} />
+    <ProjectDetails
+      blok={data.story.content.details[0]}
+      storyTitle={data.story.name}
+    />
   </article>
 </Layout>

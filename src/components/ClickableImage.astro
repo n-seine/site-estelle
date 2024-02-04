@@ -1,0 +1,35 @@
+---
+const { picture, alt } = Astro.props;
+---
+
+<img
+  src={picture.filename + "/m/800x0"}
+  data-hq-src={picture.filename + "/m/1400x0"}
+  alt={alt}
+  class="clickable-picture cursor-pointer"
+/>
+
+<script>
+  const modal = document.getElementById("modal");
+  const pictureContainer = modal!.querySelector("img");
+  console.log("pictureContainer", pictureContainer);
+  const showModal = (image) => {
+    pictureContainer.src = image.dataset.hqSrc;
+    modal?.classList.remove("hidden");
+    setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
+  };
+  const hideModal = () => {
+    modal?.classList.add("hidden");
+    pictureContainer?.classList.remove("scale-100");
+    pictureContainer.src = "";
+  };
+
+  modal?.addEventListener("click", hideModal);
+  const images = document.getElementsByClassName("clickable-picture");
+  console.log("images", images);
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    image.addEventListener("click", (e) => showModal(e.target));
+    console.log("image.dataset", image.dataset);
+  }
+</script>
