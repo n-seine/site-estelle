@@ -4,6 +4,8 @@ import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import Layout from "../layouts/Layout.astro";
 import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
 import PageTitle from "../components/PageTitle.astro";
+import ProjectLayout from "../layouts/ProjectLayout.astro";
+import AltProjectLayout from "../layouts/AltProjectLayout.astro";
 
 export async function getStaticPaths() {
   const sbApi = useStoryblokApi();
@@ -33,13 +35,5 @@ console.log("story", story);
 ---
 
 <Layout title={data.story.name}>
-  <PageTitle content={data.story.name} />
-  <article
-    class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
-  >
-    <ProjectDetails
-      blok={data.story.content.details[0]}
-      storyTitle={data.story.name}
-    />
-  </article>
+  <AltProjectLayout story={data.story} />
 </Layout>

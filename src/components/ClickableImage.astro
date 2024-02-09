@@ -2,19 +2,21 @@
 const { picture, alt } = Astro.props;
 ---
 
-<img
-  src={picture.filename + "/m/800x0"}
-  data-hq-src={picture.filename + "/m/1400x0"}
-  alt={alt}
-  class="clickable-picture cursor-pointer"
-/>
+<div class="object-cover w-full">
+  <img
+    loading="lazy"
+    src={picture.filename + "/m/1400x0"}
+    alt={alt}
+    class="clickable-picture cursor-pointer hover:brightness-110"
+  />
+</div>
 
 <script>
   const modal = document.getElementById("modal");
   const pictureContainer = modal!.querySelector("img");
   console.log("pictureContainer", pictureContainer);
   const showModal = (image) => {
-    pictureContainer.src = image.dataset.hqSrc;
+    pictureContainer.src = image.src;
     modal?.classList.remove("hidden");
     setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
   };

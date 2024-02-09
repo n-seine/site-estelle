@@ -14,7 +14,7 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
 
 <li
   class:list={[
-    " h-full group  items-center hover:cursor-pointer",
+    " h-full w-full group  items-center hover:cursor-pointer",
     {
       "md:col-span-2 lg:col-span-3": featured === true,
     },
@@ -22,7 +22,9 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
 >
   <a href={`/${slug}`} data-astro-prefetch>
     <div
-      class:list={["relative flex flex-col justify-center items-center h-60  "]}
+      class:list={[
+        "relative flex flex-col justify-center items-center h-60 w-full  ",
+      ]}
     >
       <img
         src={`${image}/m/1080x0`}

@@ -1,28 +1,64 @@
 ---
 import { storyblokEditable, renderRichText } from "@storyblok/astro";
 import ClickableImage from "../ClickableImage.astro";
-const { blok, storyTitle } = Astro.props;
+import PageTitle from "../PageTitle.astro";
+const { blok, storyTitle, altLayout = false } = Astro.props;
 console.log("storyName", storyTitle);
 ---
 
-<div>
-  <img src={blok.mainVisual.filename} alt="jhkjh" />
-  {
-    blok.content.map((section) => (
-      <section>
-        <h3>{section.title}</h3>
-        <div set:html={renderRichText(section.content)} />
-        <ul class="grid-cols-3 grid gap-3">
-          {section.gallery.map((picture) => (
-            <li class="list-none m-0 p-0">
-              <ClickableImage
-                picture={picture}
-                alt={picture.alt || "Image illustrant le projet" + storyTitle}
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-    ))
-  }
-</div>
+{
+  altLayout ? (
+    <div>
+      <div class="w-full flex gap-12 mb-24">
+        <img src={blok.mainVisual.filename} alt="storyTitle" class="w-2/3" />
+        <div class="w-1/3">
+          <PageTitle content={storyTitle} altLayout={true} />
+          <p class=" text-2xl">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo, quasi
+            et! Illo omnis, et optio quis debitis a quibusdam, excepturi cum
+            consequatur provident expedita, explicabo tempore maiores quam non
+            quidem.
+          </p>
+        </div>
+      </div>
+      {blok.content.map((section) => (
+        <section class="flex flex-row-reverse items-start justify-center gap-12 ">
+          <ul class="grid-cols-3 grid gap-3 w-2/3 ">
+            {section.gallery.map((picture) => (
+              <li class="list-none m-0 p-0">
+                <ClickableImage
+                  picture={picture}
+                  alt={picture.alt || "Image illustrant le projet" + storyTitle}
+                />
+              </li>
+            ))}
+          </ul>
+          <div class="w-1/3">
+            <h3>{section.title}</h3>
+            <div set:html={renderRichText(section.content)} />
+          </div>
+        </section>
+      ))}
+    </div>
+  ) : (
+    <div>
+      <img src={blok.mainVisual.filename} alt="jhkjh" />
+      {blok.content.map((section) => (
+        <section>
+          <h3>{section.title}</h3>
+          <div set:html={renderRichText(section.content)} />
+          <ul class="grid-cols-3 grid gap-3">
+            {section.gallery.map((picture) => (
+              <li class="list-none m-0 p-0">
+                <ClickableImage
+                  picture={picture}
+                  alt={picture.alt || "Image illustrant le projet" + storyTitle}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
+  )
+}

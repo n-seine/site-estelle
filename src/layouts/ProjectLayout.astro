@@ -1,0 +1,12 @@
+---
+import PageTitle from "../components/PageTitle.astro";
+import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
+const { story } = Astro.props;
+---
+
+<PageTitle content={story.name} />
+<article
+  class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
+>
+  <ProjectDetails blok={story.content.details[0]} storyTitle={story.name} />
+</article>

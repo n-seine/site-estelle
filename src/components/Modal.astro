@@ -1,0 +1,11 @@
+<div
+  id="modal"
+  class="fixed top-0 left-0 overflow-visible bg-black/70 h-screen w-screen hidden flex items-center justify-center group transition-all duration-200"
+>
+  <a
+    class="fixed z-90 top-6 right-8 text-white text-5xl font-bold hover:text-primary"
+    href="javascript:void(0)"
+    onclick="toggleModal">&times;</a
+  >
+  <slot name="modal-content" slot="modal-content" />
+</div>

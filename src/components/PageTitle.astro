@@ -1,9 +1,12 @@
 ---
-const { content } = Astro.props;
+const { content, altLayout = false } = Astro.props;
 ---
 
 <h3
-  class="uppercase text-3xl px-28 font-extrabold pb-6 mb-12 border-b-2 text-neutral-900 border-neutral-900 w-fit"
+  class:list={[
+    "uppercase text-3xl font-extrabold pb-6 mb-12 border-b-2 text-neutral-900 border-neutral-900 w-fit",
+    { "px-28": !altLayout },
+  ]}
 >
   {content}
 </h3>

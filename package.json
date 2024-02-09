@@ -16,6 +16,7 @@
     "@fontsource/pt-serif": "^5.0.19",
     "@fontsource/source-sans-pro": "^5.0.8",
     "@storyblok/astro": "^4.0.2",
+    "@tailwindcss/forms": "^0.5.7",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
     "astro": "^4.2.6",
