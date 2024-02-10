@@ -9,7 +9,6 @@ const { data } = await storyblokApi.get("cdn/stories/home", {
   version: import.meta.env.DEV ? "draft" : "published",
 });
 
-// console.log("data", data);
 const content = data.story.content;
 ---
 
@@ -19,26 +18,5 @@ const content = data.story.content;
   <ul
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense"
   >
-    <!-- {
-      projects.map((project) => (
-        <PortfolioItem
-          title={project.title}
-          cols={project.coverImage.cols}
-          rows={project.coverImage.rows}
-          asset={project.coverImage}
-          alt={project.coverImage.alt}
-          slug={project.slug.current}
-        />
-      ))
-    } -->
-    <!-- <PortfolioItem cols="3" title="Mon titre" />
-      <PortfolioItem title="Mon Projet" />
-      <PortfolioItem />
-      <PortfolioItem cols="2" />
-      <PortfolioItem rows="2" />
-      <PortfolioItem cols="2" />
-      <PortfolioItem />
-      <PortfolioItem />
-      <PortfolioItem /> -->
   </ul>
 </Layout>

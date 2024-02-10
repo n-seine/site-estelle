@@ -1,11 +1,11 @@
 ---
 import { useStoryblokApi } from "@storyblok/astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
-import Layout from "../layouts/Layout.astro";
-import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
-import PageTitle from "../components/PageTitle.astro";
-import ProjectLayout from "../layouts/ProjectLayout.astro";
-import AltProjectLayout from "../layouts/AltProjectLayout.astro";
+import Layout from "../../layouts/Layout.astro";
+import ProjectDetails from "../../components/storyblok/ProjectDetails.astro";
+import PageTitle from "../../components/PageTitle.astro";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import AltProjectLayout from "../../layouts/AltProjectLayout.astro";
 
 export async function getStaticPaths() {
   const sbApi = useStoryblokApi();
@@ -14,6 +14,7 @@ export async function getStaticPaths() {
     content_type: "project",
     version: import.meta.env.DEV ? "draft" : "published",
   });
+  console.log("data", data);
 
   const stories = Object.values(data.stories);
   return stories.map((story) => {
@@ -29,11 +30,17 @@ const { slug } = Astro.params;
 const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
   version: import.meta.env.DEV ? "draft" : "published",
 });
-console.log("data", data);
 const story = data.story;
-console.log("story", story);
+const altLayout = story.content.details[0].alternativeLayout;
+console.log("altLayout", altLayout);
 ---
 
 <Layout title={data.story.name}>
-  <AltProjectLayout story={data.story} />
+  {
+    altLayout ? (
+      <AltProjectLayout story={data.story} />
+    ) : (
+      <ProjectLayout story={data.story} />
+    )
+  }
 </Layout>

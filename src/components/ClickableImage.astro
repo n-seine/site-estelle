@@ -1,29 +1,40 @@
 ---
+import { Image } from "astro:assets";
+
 const { picture, alt } = Astro.props;
 ---
 
-<div class="object-cover w-full">
-  <img
-    loading="lazy"
-    src={picture.filename + "/m/1400x0"}
-    alt={alt}
-    class="clickable-picture cursor-pointer hover:brightness-110"
-  />
-</div>
-
+<Image
+  alt={alt}
+  loading={"lazy"}
+  src={`${picture.filename}/m/480x0`}
+  data-large-image={`${picture.filename}/m/1920x0`}
+  width={480}
+  height={320}
+  class="clickable-picture cursor-pointer hover:brightness-110"
+/>
 <script>
   const modal = document.getElementById("modal");
-  const pictureContainer = modal!.querySelector("img");
-  console.log("pictureContainer", pictureContainer);
+  const pictureContainer = document.createElement("img");
+  modal?.appendChild(pictureContainer);
+  pictureContainer.classList.add(
+    "scale-0",
+    "transition-all",
+    "duration-300",
+    "max-w-6xl",
+    "p-24"
+  );
   const showModal = (image) => {
-    pictureContainer.src = image.src;
+    console.log(image);
+    pictureContainer.src = image.dataset.largeImage;
     modal?.classList.remove("hidden");
+    console.log("pictureContainer", pictureContainer);
     setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
   };
   const hideModal = () => {
     modal?.classList.add("hidden");
     pictureContainer?.classList.remove("scale-100");
-    pictureContainer.src = "";
+    setTimeout(() => (pictureContainer.src = ""), 500);
   };
 
   modal?.addEventListener("click", hideModal);
@@ -31,7 +42,7 @@ const { picture, alt } = Astro.props;
   console.log("images", images);
   for (let i = 0; i < images.length; i++) {
     const image = images[i];
-    image.addEventListener("click", (e) => showModal(e.target));
-    console.log("image.dataset", image.dataset);
+    image.addEventListener("click", (e) => showModal(image));
+    image.addEventListener("mouseover", (e) => fetch(image.dataset.largeImage));
   }
 </script>

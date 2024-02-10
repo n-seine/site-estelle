@@ -16,6 +16,8 @@ import "@fontsource/pt-serif/700-italic.css";
 import "@fontsource/pt-serif/400.css";
 import "@fontsource/pt-serif/700.css";
 import Header from "../components/Header.astro";
+import { Picture } from "astro:assets";
+import Modal from "../components/Modal.astro";
 
 // const response = await fetch(
 //   "https://public-api.wordpress.com/rest/v1.1/sites/76228738/posts/"
@@ -41,28 +43,14 @@ import Header from "../components/Header.astro";
     >
       <Header />
       <main class="w-full">
-        <section class="mt-20 mx-auto flex flex-col items-center">
+        <section class="mt-48 mx-auto flex flex-col items-center">
           <slot />
         </section>
       </main>
     </div>
 
-    <!-- Modal div -->
-    <div
-      id="modal"
-      class="fixed top-0 left-0 overflow-visible bg-black/70 h-screen w-screen hidden flex items-center justify-center group transition-all duration-200"
-    >
-      <a
-        class="fixed z-90 top-6 right-8 text-white text-5xl font-bold hover:text-primary"
-        href="javascript:void(0)"
-        onclick="toggleModal">&times;</a
-      >
-      <img
-        class="h-auto w-full max-w-5xl max-h-[600px] scale-0 transition-all duration-300"
-      />
-    </div>
-    <!-- End of modal -->
+    <Modal />
   </body>
-</html>
 
-<script></script>
+  <script></script>
+</html>

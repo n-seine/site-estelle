@@ -16,7 +16,7 @@ const rawProjects = data.stories.map((project) => {
     featured: project.content.homeDisplay[0].featured,
     image: project.content.homeDisplay[0].coverPicture,
     tags: project.tag_list,
-    slug: project.slug,
+    slug: project.full_slug,
   };
 });
 const featuredProject = rawProjects.find((project) => project.featured);
@@ -24,7 +24,6 @@ const projects = rawProjects.filter(
   (project) => project.slug !== featuredProject.slug
 );
 
-// console.log("projects", projects);
 const { blok } = Astro.props;
 ---
 
@@ -51,6 +50,7 @@ const { blok } = Astro.props;
         image={project.image.filename}
         slug={project.slug}
         tags={project.tags}
+        featured={false}
       />
     ))
   }
