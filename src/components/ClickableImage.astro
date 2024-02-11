@@ -4,19 +4,36 @@ import { Image } from "astro:assets";
 const { picture, alt } = Astro.props;
 ---
 
-<Image
-  alt={alt}
-  loading={"lazy"}
-  src={`${picture.filename}/m/480x0`}
-  data-large-image={`${picture.filename}/m/1920x0`}
-  width={480}
-  height={320}
-  class="clickable-picture cursor-pointer hover:brightness-110"
-/>
+<a
+  rel="prefetch"
+  href={picture.name.toLowerCase().includes("animation")
+    ? picture.filename
+    : `${picture.filename}/m/1600x0`}
+>
+  <Image
+    alt={alt}
+    loading={"lazy"}
+    src={picture.name.toLowerCase().includes("animation")
+      ? picture.filename
+      : `${picture.filename}/m/480x0`}
+    data-large-image={picture.name.toLowerCase().includes("animation")
+      ? picture.filename
+      : `${picture.filename}/m/1600x0`}
+    width={480}
+    height={320}
+    class="clickable-picture cursor-pointer hover:brightness-110"
+  />
+</a>
 <script>
+  const getUrl = (url) =>
+    url.replace("//a.storyblok.com", "//a2.storyblok.com");
+  import { prefetch } from "astro:prefetch";
+
   const modal = document.getElementById("modal");
   const pictureContainer = document.createElement("img");
+
   modal?.appendChild(pictureContainer);
+
   pictureContainer.classList.add(
     "scale-0",
     "transition-all",
@@ -24,13 +41,16 @@ const { picture, alt } = Astro.props;
     "max-w-6xl",
     "p-24"
   );
+
+  //Show modal when image is clicked
   const showModal = (image) => {
     console.log(image);
-    pictureContainer.src = image.dataset.largeImage;
+    pictureContainer.src = getUrl(image.dataset.largeImage);
     modal?.classList.remove("hidden");
     console.log("pictureContainer", pictureContainer);
     setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
   };
+  //Hide modal when clicked
   const hideModal = () => {
     modal?.classList.add("hidden");
     pictureContainer?.classList.remove("scale-100");
@@ -41,8 +61,14 @@ const { picture, alt } = Astro.props;
   const images = document.getElementsByClassName("clickable-picture");
   console.log("images", images);
   for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    image.addEventListener("click", (e) => showModal(image));
-    image.addEventListener("mouseover", (e) => fetch(image.dataset.largeImage));
+    const image: HTMLElement = images[i];
+    console.log("image.dataset", image.dataset);
+    image.addEventListener("click", (e) => {
+      e.preventDefault();
+      showModal(image);
+    });
+    image.addEventListener("mouseover", (e) => {
+      new Image().src = getUrl(image.dataset.largeImage);
+    });
   }
 </script>

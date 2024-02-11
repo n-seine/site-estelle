@@ -11,7 +11,7 @@ import basicSsl from "@vitejs/plugin-basic-ssl";
 
 // https://astro.build/config
 export default defineConfig({
-  output: "hybrid",
+  output: env.STORYBLOK_IS_PREVIEW === "yes" ? "server" : "static",
 
   vite: {
     plugins: [basicSsl()],
@@ -22,12 +22,16 @@ export default defineConfig({
   integrations: [
     tailwind(),
     storyblok({
-      accessToken: env.STORYBLOK_TOKEN,
+      accessToken:
+        env.STORYBLOK_IS_PREVIEW === "yes"
+          ? env.STORYBLOK_PREVIEW_TOKEN
+          : env.STORYBLOK_PUBLIC_TOKEN,
       components: {
         projectDetails: "components/storyblok/ProjectDetails",
         portfolioGrid: "components/storyblok/PortfolioGrid",
         page: "components/storyblok/Page",
       },
+      bridge: env.STORYBLOK_IS_PREVIEW === "yes" ? true : false,
     }),
     react(),
   ],

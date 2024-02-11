@@ -6,7 +6,8 @@ import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import PageTitle from "../components/PageTitle.astro";
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get("cdn/stories/home", {
-  version: import.meta.env.DEV ? "draft" : "published",
+  version:
+    import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
 });
 
 const content = data.story.content;
