@@ -1,4 +1,10 @@
-name: merge-main-to-previews:
+name: Merge main to preview
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+jobs:
+  merge-main-to-preview:
     if: github.event.pull_request.merged == true
     timeout-minutes: 2
     runs-on: ubuntu-latest
