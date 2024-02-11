@@ -21,27 +21,37 @@ export async function getStaticPaths() {
   return stories.map((story) => {
     return {
       params: { slug: story.slug },
+      props: { story },
     };
   });
 }
 
-const sbApi = useStoryblokApi();
-const { slug } = Astro.params;
+let content;
 
-const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
-  version: import.meta.env.DEV ? "draft" : "published",
-});
-const story = data.story;
-const altLayout = story.content.details[0].alternativeLayout;
+if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
+  console.log("yes");
+  const { slug } = Astro.params;
+  const sbApi = useStoryblokApi();
+
+  const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
+    version:
+      import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
+  });
+  content = data.story;
+} else {
+  const { story } = Astro.props;
+  content = story;
+}
+const altLayout = content.content.details[0].alternativeLayout;
 console.log("altLayout", altLayout);
 ---
 
-<Layout title={data.story.name}>
+<Layout title={content.name}>
   {
     altLayout ? (
-      <AltProjectLayout story={data.story} />
+      <AltProjectLayout story={content} />
     ) : (
-      <ProjectLayout story={data.story} />
+      <ProjectLayout story={content} />
     )
   }
 </Layout>

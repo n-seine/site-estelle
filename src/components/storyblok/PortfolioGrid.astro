@@ -5,8 +5,9 @@ import PortfolioItem from "../PortfolioItem.astro";
 
 const storyblokApi = useStoryblokApi();
 
-const { data } = await storyblokApi.get("cdn/stories", {
-  version: import.meta.env.DEV ? "draft" : "published",
+const { data } = await storyblokApi.get("cdn/stories/", {
+  version:
+    import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
   content_type: "project",
 });
 
