@@ -34,5 +34,6 @@ export default defineConfig({
     react(),
   ],
   prefetch: true,
-  adapter: netlify(),
+  adapter:
+    import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? netlify() : undefined,
 });
