@@ -1,23 +1,25 @@
-name: Merge main to preview
+name: Keep Preview branch in sync with Main (on push)
 on:
-  pull_request:
+  push:
     branches: [main]
-    types: [closed]
+permissions:
+  contents: write
 jobs:
-  merge-main-to-preview:
-    if: github.event.pull_request.merged == true
-    timeout-minutes: 2
+  keep-preview-in-sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Set Git config
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
       - name: Merge main to preview
         run: |
-          git fetch --unshallow
+          git checkout main
+          git fetch origin
           git checkout preview
           git pull
-          git merge --no-ff main -m "Auto-merge main to preview"
-          git push
+          git merge origin/main
+          git push origin preview
