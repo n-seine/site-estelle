@@ -35,5 +35,7 @@ export default defineConfig({
   ],
   prefetch: true,
   adapter:
-    import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? netlify() : undefined,
+    import.meta.env.STORYBLOK_IS_PREVIEW === "yes"
+      ? netlify({ imageCDN: false })
+      : undefined,
 });
