@@ -25,9 +25,8 @@ const { picture, alt } = Astro.props;
   />
 </a>
 <script>
-  const getUrl = (url) =>
+  const getUrl = (url: string) =>
     url.replace("//a.storyblok.com", "//a2.storyblok.com");
-  import { prefetch } from "astro:prefetch";
 
   const modal = document.getElementById("modal");
   const pictureContainer = document.createElement("img");
@@ -46,9 +45,9 @@ const { picture, alt } = Astro.props;
   );
 
   //Show modal when image is clicked
-  const showModal = (image) => {
+  const showModal = (image: HTMLElement) => {
     console.log(image);
-    pictureContainer.src = getUrl(image.dataset.largeImage);
+    pictureContainer.src = getUrl(image.dataset.largeImage!);
     modal?.classList.remove("hidden");
     console.log("pictureContainer", pictureContainer);
     setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
@@ -61,17 +60,19 @@ const { picture, alt } = Astro.props;
   };
 
   modal?.addEventListener("click", hideModal);
-  const images = document.getElementsByClassName("clickable-picture");
+  const images = document.getElementsByClassName(
+    "clickable-picture"
+  ) as HTMLCollectionOf<HTMLElement>;
   console.log("images", images);
   for (let i = 0; i < images.length; i++) {
-    const image: HTMLElement = images[i];
+    const image = images[i];
     console.log("image.dataset", image.dataset);
     image.addEventListener("click", (e) => {
       e.preventDefault();
       showModal(image);
     });
     image.addEventListener("mouseover", (e) => {
-      new Image().src = getUrl(image.dataset.largeImage);
+      new Image().src = getUrl(image.dataset.largeImage!);
     });
   }
 </script>

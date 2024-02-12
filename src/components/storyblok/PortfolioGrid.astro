@@ -2,6 +2,16 @@
 import { storyblokEditable } from "@storyblok/astro";
 import { useStoryblokApi } from "@storyblok/astro";
 import PortfolioItem from "../PortfolioItem.astro";
+import type { SchemaContext } from "astro:content";
+
+type SanitizedProject = {
+  title: string;
+  featured: boolean;
+  image: { alt: string; filename: string };
+  alt: string;
+  slug: string;
+  tags: string[];
+};
 
 const storyblokApi = useStoryblokApi();
 
@@ -11,18 +21,26 @@ const { data } = await storyblokApi.get("cdn/stories/", {
   content_type: "project",
 });
 
-const rawProjects = data.stories.map((project) => {
-  return {
-    title: project.content.homeDisplay[0].title,
-    featured: project.content.homeDisplay[0].featured,
-    image: project.content.homeDisplay[0].coverPicture,
-    tags: project.tag_list,
-    slug: project.full_slug,
-  };
-});
-const featuredProject = rawProjects.find((project) => project.featured);
+const rawProjects = data.stories.map(
+  (project: {
+    content: { homeDisplay: any[] };
+    full_slug: string;
+    tag_list: string[];
+  }) => {
+    return {
+      title: project.content.homeDisplay[0].title,
+      featured: project.content.homeDisplay[0].featured,
+      image: project.content.homeDisplay[0].coverPicture,
+      tags: project.tag_list,
+      slug: project.full_slug,
+    };
+  }
+);
+const featuredProject = rawProjects.find(
+  (project: SanitizedProject) => project.featured
+);
 const projects = rawProjects.filter(
-  (project) => project.slug !== featuredProject.slug
+  (project: SanitizedProject) => project.slug !== featuredProject.slug
 );
 
 const { blok } = Astro.props;
@@ -44,7 +62,7 @@ const { blok } = Astro.props;
     )
   }
   {
-    projects.map((project) => (
+    projects.map((project: SanitizedProject) => (
       <PortfolioItem
         title={project.title}
         alt={project.image.alt}
