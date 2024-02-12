@@ -27,10 +27,10 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
       ]}
     >
       <img
-        src={`${image}/m/1080x0`}
+        src={featured ? `${image}/m/1080x0` : `${image}/m/640x0`}
         alt={alt}
         class="w-full h-full aspect-video object-cover group-hover:saturate-0 transition-all duration-200"
-        loading="lazy"
+        loading={featured ? "eager" : "lazy"}
       />
 
       <div
