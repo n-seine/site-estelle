@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, Picture } from "astro:assets";
 
 interface Props {
   title: string;
@@ -26,9 +26,11 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
         "relative flex flex-col justify-center items-center h-60 w-full  ",
       ]}
     >
-      <img
+      <Image
         src={featured ? `${image}/m/1080x0` : `${image}/m/640x0`}
         alt={alt}
+        height={600}
+        width={800}
         class="w-full h-full aspect-video object-cover group-hover:saturate-0 transition-all duration-200"
         loading={featured ? "eager" : "lazy"}
       />

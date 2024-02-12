@@ -6,6 +6,7 @@ import ClickableImage from "../components/ClickableImage.astro";
 import PageTitle from "../components/PageTitle.astro";
 import Image from "astro/components/Image.astro";
 const blok = story.content.details[0];
+console.log("story", story);
 ---
 
 <article class="w-full md:px-12 max-w-6xl">
@@ -23,14 +24,14 @@ const blok = story.content.details[0];
         {
           blok.mainVisual.filename && (
             <Image
-              src={blok.mainVisual.filename + "/m/1200x0"}
+              src={blok.mainVisual.filename + "/m/720x0"}
               alt={
-                blok.mainVisual.alt ||
-                "Image illustrant le projet" + story.title
+                blok.mainVisual.alt || "Image illustrant le projet" + story.name
               }
-              width={1200}
+              width={720}
               height={900}
               class="  lg:h-fit w-full xl:w-2/3 pt-2 "
+              loading="eager"
             />
           )
         }
@@ -65,7 +66,7 @@ const blok = story.content.details[0];
                 <ClickableImage
                   picture={picture}
                   alt={
-                    picture.alt || "Image illustrant le projet" + story.title
+                    picture.alt || "Image illustrant le projet " + story.name
                   }
                 />
               </li>
