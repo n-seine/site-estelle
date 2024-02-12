@@ -1,115 +1,65 @@
 ---
-import { storyblokEditable, renderRichText } from "@storyblok/astro";
-import ClickableImage from "../ClickableImage.astro";
-import PageTitle from "../PageTitle.astro";
-import Image from "astro/components/Image.astro";
-const { blok, storyTitle, altLayout = false } = Astro.props;
-console.log("storyName", storyTitle);
+// import { storyblokEditable, renderRichText } from "@storyblok/astro";
+// import ClickableImage from "../ClickableImage.astro";
+// import PageTitle from "../PageTitle.astro";
+// import Image from "astro/components/Image.astro";
+// const { story, storyTitle, altLayout = false } = Astro.props;
+// console.log("storyName", storyTitle);
+// const blok = story.content.details[0];
 ---
 
-{
-  altLayout ? (
-    <div>
-      <div class="flex-col items-center xl:items-start xl:flex-row  xl:w-full flex xl:gap-12 mb-24">
-        <div class="flex flex-col justify-start items-center h-fit mb-24 ">
-          <PageTitle content={storyTitle} altLayout={true} />
-          {blok.mainVisual.filename && (
-            <Image
-              src={blok.mainVisual.filename + "/m/1200x0"}
-              alt={
-                blok.mainVisual.alt || "Image illustrant le projet" + storyTitle
-              }
-              width={1200}
-              height={900}
-              class="w-full max-w-3xl  lg:h-fit "
-            />
-          )}
-          {blok.youtube && (
-            <iframe
-              width="100%"
-              height="480"
-              src={`https://www.youtube.com/embed/${blok.youtube}`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            />
-          )}
-        </div>
-        <div class="flex flex-col w-full xl:w-1/3 items-center justify-start">
-          <p class=" text-xl font-semibold text-primary not-prose ">
-            {blok.header}
-          </p>
-        </div>
-      </div>
+<!-- 
+(
+<div class="w-full max-w-5xl flex flex-col items-center">
+  <p class="text-xl font-semibold text-primary not-prose mb-12">
+    {blok.header}
+  </p>
 
-      {blok.content.map((section) => (
-        <section class=" flex flex-col-reverse md:flex-row items-start justify-center gap-12 ">
-          <ul
-            class="grid-cols-2 xl:grid-cols-3 grid gap-3 w-full max-w-3-xl xl:w-2/3"
-            style="padding-left: Opx;"
-          >
-            {section.gallery.map((picture) => (
-              <li class="list-none m-0 p-0">
-                <ClickableImage
-                  picture={picture}
-                  alt={picture.alt || "Image illustrant le projet" + storyTitle}
-                />
-              </li>
-            ))}
-          </ul>
-          <div class="w-full xl:w-1/3">
-            <h3>{section.title}</h3>
-            <div set:html={renderRichText(section.content)} />
-          </div>
-        </section>
-      ))}
-    </div>
-  ) : (
-    <div class="w-full max-w-5xl flex flex-col items-center">
-      <p class=" text-xl font-semibold text-primary not-prose mb-12">
-        {blok.header}
-      </p>
+  {
+    blok.mainVisual.filename && (
+      <Image
+        src={blok.mainVisual.filename + "/m/1200x0"}
+        alt={blok.mainVisual.alt || "Image illustrant le projet" + storyTitle}
+        width={1200}
+        height={900}
+        class="w-full max-w-3xl  lg:h-fit mb-24 "
+      />
+    )
+  }
+  {
+    blok.youtube && (
+      <iframe
+        class="mb-24 w-2/3 aspect-video "
+        width="100%"
+        height="480"
+        src={`https://www.youtube.com/embed/${blok.youtube}`}
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      />
+    )
+  }
 
-      {blok.mainVisual.filename && (
-        <Image
-          src={blok.mainVisual.filename + "/m/1200x0"}
-          alt={blok.mainVisual.alt || "Image illustrant le projet" + storyTitle}
-          width={1200}
-          height={900}
-          class="w-full max-w-3xl  lg:h-fit mb-24 "
+  {
+    blok.content.map((section) => (
+      <section>
+        <h3>{section.title}</h3>
+        <div
+          set:html={renderRichText(section.content)}
+          class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
         />
-      )}
-      {blok.youtube && (
-        <iframe
-          class="mb-24 w-2/3 aspect-video "
-          width="100%"
-          height="480"
-          src={`https://www.youtube.com/embed/${blok.youtube}`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen
-        />
-      )}
-
-      {blok.content.map((section) => (
-        <section>
-          <h3>{section.title}</h3>
-          <div
-            set:html={renderRichText(section.content)}
-            class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-primary hover:prose-a:underline"
-          />
-          <ul class="grid-cols-3 grid gap-3">
-            {section.gallery.map((picture) => (
-              <li class="list-none m-0 p-0">
-                <ClickableImage
-                  picture={picture}
-                  alt={picture.alt || "Image illustrant le projet" + storyTitle}
-                />
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-    </div>
-  )
-}
+        <ul class="grid-cols-3 grid gap-3">
+          {section.gallery.map((picture) => (
+            <li class="list-none m-0 p-0">
+              <ClickableImage
+                picture={picture}
+                alt={picture.alt || "Image illustrant le projet" + storyTitle}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+) } -->
