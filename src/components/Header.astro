@@ -11,7 +11,7 @@ import NavLink from "./NavLink.astro";
   >
     <Image
       alt={"une image de lapin dessiné par Estelle Chauvard"}
-      ,
+      loading={"eager"}
       src={lapin}
     />
   </a>
@@ -30,7 +30,7 @@ import NavLink from "./NavLink.astro";
   </h2>
   <nav class="flex gap-6 font-extrabold uppercase pt-12">
     <NavLink text="à propos" link="/about" />
-    <NavLink text="cv" link="/cv" />
+    <!-- <NavLink text="cv" link="/cv" /> -->
     <NavLink text="portfolio" link="/" />
     <NavLink text="contact" link="/contact" />
   </nav>
