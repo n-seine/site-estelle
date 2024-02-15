@@ -16,7 +16,7 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
   class:list={[
     " portfolio-item h-full w-full group items-center hover:cursor-pointer",
     {
-      "md:col-span-2 lg:col-span-3 w-full": featured === true,
+      "col-span-full ": featured === true,
     },
   ]}
   data-tags={tags.join(", ")}

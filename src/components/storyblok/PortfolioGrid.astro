@@ -54,20 +54,20 @@ const { blok } = Astro.props;
 ---
 
 <ul
-  class="flex flex-wrap gap-6 font-serif italic text-neutral-500 w-full md:w-11/12 max-w-7xl mx-auto mb-6 text-lg"
+  class="flex flex-wrap w-full md:w-11/12 justify-start gap-2 md:gap-6 font-serif italic text-neutral-500 max-w-7xl mx-4 md:mx-auto mb-12 text-lg leading-3"
 >
   {
     allTags.map((tag) => (
-      <>
-        <li
+      <li>
+        <span
           data-tag={tag}
           data-filter="false"
           class=" tag hover:cursor-pointer hover:text-primary data-[filter=true]:font-bold"
         >
           {tag}
-        </li>
-        <li>/</li>
-      </>
+        </span>
+        <span>/</span>
+      </li>
     ))
   }
 </ul>
