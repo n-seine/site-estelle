@@ -14,11 +14,12 @@ const { title = "", featured = false, image, alt, slug, tags } = Astro.props;
 
 <li
   class:list={[
-    " h-full w-full group  items-center hover:cursor-pointer",
+    " portfolio-item h-full w-full group items-center hover:cursor-pointer",
     {
-      "md:col-span-2 lg:col-span-3": featured === true,
+      "md:col-span-2 lg:col-span-3 w-full": featured === true,
     },
   ]}
+  data-tags={tags.join(", ")}
 >
   <a href={`/${slug}`}>
     <div

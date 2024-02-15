@@ -36,15 +36,41 @@ const rawProjects = data.stories.map(
     };
   }
 );
+
 const featuredProject = rawProjects.find(
   (project: SanitizedProject) => project.featured
 );
 const projects = rawProjects.filter(
   (project: SanitizedProject) => project.slug !== featuredProject.slug
 );
+const allTags = [
+  ...new Set(
+    rawProjects.flatMap((project: SanitizedProject) => project.tags).sort()
+  ),
+];
+console.log("allTags", allTags);
 
 const { blok } = Astro.props;
 ---
+
+<ul
+  class="flex flex-wrap gap-6 font-serif italic text-neutral-500 w-full md:w-11/12 max-w-7xl mx-auto mb-6 text-lg"
+>
+  {
+    allTags.map((tag) => (
+      <>
+        <li
+          data-tag={tag}
+          data-filter="false"
+          class=" tag hover:cursor-pointer hover:text-primary data-[filter=true]:font-bold"
+        >
+          {tag}
+        </li>
+        <li>/</li>
+      </>
+    ))
+  }
+</ul>
 
 <ul
   class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense mx-auto"
@@ -74,3 +100,48 @@ const { blok } = Astro.props;
     ))
   }
 </ul>
+
+<script>
+  const filterPortfolioItems = (filtersArray, portfolioItems) => {
+    if (filtersArray.length === 0) {
+      portfolioItems.forEach((element) => {
+        element.classList.remove("hidden");
+      });
+    } else {
+      portfolioItems.forEach((element) => {
+        if (filtersArray.some((tag) => element.dataset.tags.includes(tag))) {
+          element.classList.remove("hidden");
+        } else {
+          element.classList.add("hidden");
+        }
+      });
+    }
+  };
+
+  const tagNames = document.querySelectorAll(
+    ".tag"
+  ) as NodeListOf<HTMLLIElement>;
+
+  const portfolioItems = document.querySelectorAll(
+    ".portfolio-item"
+  ) as NodeListOf<HTMLLIElement>;
+
+  console.log("portfolioItems", portfolioItems);
+
+  let filterList: string[] = [];
+
+  tagNames.forEach((tag) => {
+    tag.addEventListener("click", (event) => {
+      console.log("tag", tag);
+      if (tag.dataset.filter === "true") {
+        tag.dataset.filter = "false";
+        filterList = filterList.filter((filter) => filter !== tag.dataset.tag);
+      } else {
+        tag.dataset.filter = "true";
+        filterList.push(tag.dataset.tag);
+      }
+      console.log("filterList", filterList);
+      filterPortfolioItems(filterList, portfolioItems);
+    });
+  });
+</script>
