@@ -1,12 +1,11 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
-
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import storyblok from "@storyblok/astro";
 import netlify from "@astrojs/netlify";
-
 import basicSsl from "@vitejs/plugin-basic-ssl";
+import sitemap from "@astrojs/sitemap";
 const { STORYBLOK_IS_PREVIEW } = loadEnv(
   process.env.NODE_ENV,
   process.cwd(),
@@ -22,16 +21,17 @@ const { STORYBLOK_PUBLIC_TOKEN } = loadEnv(
   process.cwd(),
   ""
 );
+
 // https://astro.build/config
 export default defineConfig({
   output: STORYBLOK_IS_PREVIEW === "yes" ? "server" : "static",
-
   vite: {
     plugins: [basicSsl()],
     server: {
       https: true,
     },
   },
+  site: "https://fantastic-fudge-691ec9.netlify.app/",
   integrations: [
     tailwind(),
     storyblok({
@@ -47,8 +47,13 @@ export default defineConfig({
       bridge: STORYBLOK_IS_PREVIEW === "yes" ? true : false,
     }),
     react(),
+    sitemap(),
   ],
   prefetch: true,
   adapter:
-    STORYBLOK_IS_PREVIEW === "yes" ? netlify({ imageCDN: false }) : undefined,
+    STORYBLOK_IS_PREVIEW === "yes"
+      ? netlify({
+          imageCDN: false,
+        })
+      : undefined,
 });
