@@ -6,6 +6,8 @@ import ClickableImage from "../components/ClickableImage.astro";
 import PageTitle from "../components/PageTitle.astro";
 import Image from "astro/components/Image.astro";
 const blok = story.content.details[0];
+const displayVideo = blok.vimeo || blok.youtube;
+console.log("blok.vimeo", blok);
 ---
 
 <PageTitle
@@ -29,6 +31,22 @@ const blok = story.content.details[0];
         />
       )
     }
+
+    {
+      blok.vimeo && (
+        <>
+          <div style="padding:56.25% 0 0 0;position:relative;">
+            <iframe
+              src={`https://player.vimeo.com/video/" ${blok.vimeo}`}
+              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+            />
+          </div>
+          <script src="https://player.vimeo.com/api/player.js" />
+        </>
+      )
+    }
     {
       blok.youtube && (
         <iframe
@@ -42,7 +60,9 @@ const blok = story.content.details[0];
         />
       )
     }
-    <p class="text-xl px-4 font-normal text-primary not-prose text-justify">
+    <p
+      class="text-xl px-4 md:px-0 text-neutral-500 font-semibold not-prose text-justify"
+    >
       {blok.header}
     </p>
 

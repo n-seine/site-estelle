@@ -10,7 +10,7 @@ export default {
         sans: ["Source Sans Pro", ...defaultTheme.fontFamily.sans],
         serif: ["PT serif", ...defaultTheme.fontFamily.serif],
       },
-      colors: { primary: "#e06d5e" },
+      colors: { primary: "#e1c564" },
     },
   },
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
