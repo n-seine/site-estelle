@@ -1,13 +1,14 @@
 ---
 import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
 const { story } = Astro.props;
+console.log("story", story);
 import { storyblokEditable, renderRichText } from "@storyblok/astro";
 import ClickableImage from "../components/ClickableImage.astro";
 import PageTitle from "../components/PageTitle.astro";
 import Image from "astro/components/Image.astro";
 const blok = story.content.details[0];
 const displayVideo = blok.vimeo || blok.youtube;
-console.log("blok.vimeo", blok);
+console.log("blok", blok);
 ---
 
 <PageTitle
@@ -21,9 +22,7 @@ console.log("blok.vimeo", blok);
       blok.mainVisual.filename && (
         <Image
           src={blok.mainVisual.filename + "/m/720x0"}
-          alt={
-            blok.mainVisual.alt || "Image illustrant le projet" + story.title
-          }
+          alt={blok.mainVisual.alt || "Image illustrant le projet" + story.name}
           loading="eager"
           width={1200}
           height={800}
@@ -35,10 +34,10 @@ console.log("blok.vimeo", blok);
     {
       blok.vimeo && (
         <>
-          <div style="padding:56.25% 0 0 0;position:relative;">
+          <div class="w-full aspect-video mb-12 lg:mb-24">
             <iframe
-              src={`https://player.vimeo.com/video/" ${blok.vimeo}`}
-              style="position:absolute;top:0;left:0;width:100%;height:100%;"
+              src={`https://player.vimeo.com/video/${blok.vimeo}`}
+              class="w-full aspect-video"
               allow="autoplay; fullscreen; picture-in-picture"
               allowfullscreen
             />

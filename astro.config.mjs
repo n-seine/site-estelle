@@ -53,7 +53,7 @@ export default defineConfig({
   adapter:
     STORYBLOK_IS_PREVIEW === "yes"
       ? netlify({
-          imageCDN: false,
+          imageCDN: true,
         })
       : undefined,
 });

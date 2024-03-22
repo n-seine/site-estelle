@@ -11,6 +11,7 @@ type SanitizedProject = {
   alt: string;
   slug: string;
   tags: string[];
+  date: Date;
 };
 
 const storyblokApi = useStoryblokApi();
@@ -33,28 +34,30 @@ const rawProjects = data.stories.map(
       image: project.content.homeDisplay[0].coverPicture,
       tags: project.tag_list,
       slug: project.full_slug,
+      date: new Date(project.content.details[0].year),
     };
   }
 );
 
+console.log("rawProjects", rawProjects);
+
 const featuredProject = rawProjects.find(
   (project: SanitizedProject) => project.featured
 );
-const projects = rawProjects.filter(
-  (project: SanitizedProject) => project.slug !== featuredProject.slug
-);
+const projects = rawProjects
+  .filter((project: SanitizedProject) => project.slug !== featuredProject.slug)
+  .sort((a: SanitizedProject, b: SanitizedProject) => b.date - a.date);
 const allTags = [
   ...new Set(
     rawProjects.flatMap((project: SanitizedProject) => project.tags).sort()
   ),
 ];
-console.log("allTags", allTags);
 
 const { blok } = Astro.props;
 ---
 
 <ul
-  class="flex flex-wrap w-full md:w-11/12 justify-start gap-2 md:gap-6 font-serif italic text-neutral-500 max-w-7xl mx-4 md:mx-auto mb-12 text-lg leading-3"
+  class="flex flex-wrap w-full md:w-11/12 justify-start gap-2 md:gap-6 font-serif italic text-neutral-500 max-w-7xl mx-4 md:mx-auto mb-12 text-base leading-0"
 >
   {
     allTags.map((tag) => (
