@@ -4,6 +4,8 @@ import PortfolioItem from "../components/PortfolioItem.astro";
 import { useStoryblokApi } from "@storyblok/astro";
 import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
 import PageTitle from "../components/PageTitle.astro";
+import Splash from "../components/Splash.astro";
+import PagesLayout from "../layouts/PagesLayout.astro";
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get("cdn/stories/home", {
   version:
@@ -13,11 +15,12 @@ const { data } = await storyblokApi.get("cdn/stories/home", {
 const content = data.story.content;
 ---
 
-<Layout title="Estelle Chauvard - Autrice / Vidéaste / Graphiste">
+<PagesLayout title="Estelle Chauvard - projets et portfolio">
   <PageTitle title="portfolio" />
+
   <StoryblokComponent blok={content} />
-  <ul
+  <!-- <ul
     class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense"
-  >
-  </ul>
-</Layout>
+    >
+  </ul> -->
+</PagesLayout>

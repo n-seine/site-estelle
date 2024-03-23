@@ -6,6 +6,7 @@ import ProjectDetails from "../../components/storyblok/ProjectDetails.astro";
 import PageTitle from "../../components/PageTitle.astro";
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
 import AltProjectLayout from "../../layouts/AltProjectLayout.astro";
+import PagesLayout from "../../layouts/PagesLayout.astro";
 
 export async function getStaticPaths() {
   const sbApi = useStoryblokApi();
@@ -33,20 +34,33 @@ if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
   const { slug } = Astro.params;
   const sbApi = useStoryblokApi();
 
-  const { data } = await sbApi.get(`cdn/stories/projets/${slug}`, {
+  const { data } = await sbApi.get("cdn/stories/", {
     version:
       import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
+    content_type: "project",
   });
-  content = data.story;
+
+  const project = data.stories.find(
+    (story: { slug: string }) => story.slug === slug
+  );
+  const projectIndex = data.stories.findIndex(
+    (story: { slug: string }) => story.slug === slug
+  );
+  content = project.story;
+
+  const nextProjectSlug =
+    data.stories[projectIndex + 1].full_slug || data.stories[0].full_slug;
+  const previousProjectSlug =
+    data.stories[projectIndex - 1].full_slug ||
+    data.stories[data.stories.length - 1].full_slug;
 } else {
   const { story } = Astro.props;
   content = story;
 }
 const altLayout = content.content.details[0].alternativeLayout;
-console.log("altLayout", altLayout);
 ---
 
-<Layout title={"Estelle Chauvard - " + content.name}>
+<PagesLayout title={"Estelle Chauvard - " + content.name}>
   {
     altLayout ? (
       <AltProjectLayout story={content} />
@@ -54,4 +68,4 @@ console.log("altLayout", altLayout);
       <ProjectLayout story={content} />
     )
   }
-</Layout>
+</PagesLayout>

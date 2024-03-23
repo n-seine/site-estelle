@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import lapin from "../assets/lapin-nez-web.webp";
+---
+
+<div
+  id="splash"
+  class="hidden w-full h-full min-h-screen min-w-screen fixed top-0 left-0 lg:flex flex-col justify-center gap-24 items-center bg-stone-50"
+>
+  <div
+    id="splash-content"
+    class="splash-content lg:flex flex-col justify-center items-center transition-all duration-1000"
+  >
+    <Image
+      alt={"une image de lapin dessiné par Estelle Chauvard"}
+      loading={"eager"}
+      class={"h-56 w-auto"}
+      src={lapin}
+    />
+    <h1
+      class="text-8xl uppercase font-extrabold text-neutral-800 pt-6 tracking-wide"
+    >
+      <p class="flex gap-2 lg:gap-4 items-center lg:flex-row">
+        <span>estelle</span>
+        <span>chauvard</span>
+      </p>
+    </h1>
+    <h2 id="jobs" class="font-serif italic text-stone-400 pt-8 text-2xl">
+      <span class="transition-all duration-1000 opacity-0">Autrice / </span>
+      <span class="transition-all duration-1000 opacity-0"> Vidéaste / </span>
+      <span class="transition-all duration-1000 opacity-0 0"> Graphiste</span>
+    </h2>
+  </div>
+  <div class="flex gap-16">
+    <a
+      href="/portolio"
+      class="bg-neutral-800 px-8 py-4 text-center text-lg font-semibold text-white hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >Voir mes travaux</a
+    >
+    <a
+      href="/contact"
+      class="bg-none px-8 py-4 text-center text-base font-semibold text-neutral-800 border-neutral-800 border-2 hover:border-primary hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+      >Me contacter</a
+    >
+  </div>
+</div>
+
+<script>
+  const splash = document.getElementById("splash");
+  const splashContent = document.getElementById("splash-content");
+  const jobs = document.getElementById("jobs");
+  const allJobs = jobs?.querySelectorAll("span");
+  const fadeIn = (elements: NodeListOf<HTMLElement>) => {
+    elements.forEach((element, i) => {
+      setTimeout(() => {
+        element.classList.add("opacity-100");
+      }, i * 600);
+      console.log("element", element);
+    });
+  };
+  allJobs && fadeIn(allJobs);
+</script>

@@ -1,0 +1,19 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Modal from "../components/Modal.astro";
+import Layout from "./Layout.astro";
+
+const { title } = Astro.props;
+---
+
+<Layout title={title}>
+  <Header />
+  <main class="w-full">
+    <section class="mt-24 md:mt-32 mx-auto flex flex-col items-center">
+      <slot />
+    </section>
+  </main>
+  <Footer />
+  <Modal />
+</Layout>
