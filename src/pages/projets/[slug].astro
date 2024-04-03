@@ -16,7 +16,6 @@ export async function getStaticPaths() {
     version:
       import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
   });
-  console.log("data", data);
 
   const stories = Object.values(data.stories);
   return stories.map((story) => {
@@ -30,7 +29,6 @@ export async function getStaticPaths() {
 let content;
 
 if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
-  console.log("yes");
   const { slug } = Astro.params;
   const sbApi = useStoryblokApi();
 

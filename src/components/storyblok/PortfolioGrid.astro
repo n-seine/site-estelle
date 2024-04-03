@@ -39,8 +39,6 @@ const rawProjects = data.stories.map(
   }
 );
 
-console.log("rawProjects", rawProjects);
-
 const featuredProject = rawProjects.find(
   (project: SanitizedProject) => project.featured
 );
@@ -129,13 +127,10 @@ const { blok } = Astro.props;
     ".portfolio-item"
   ) as NodeListOf<HTMLLIElement>;
 
-  console.log("portfolioItems", portfolioItems);
-
   let filterList: string[] = [];
 
   tagNames.forEach((tag) => {
     tag.addEventListener("click", (event) => {
-      console.log("tag", tag);
       if (tag.dataset.filter === "true") {
         tag.dataset.filter = "false";
         filterList = filterList.filter((filter) => filter !== tag.dataset.tag);
@@ -143,7 +138,6 @@ const { blok } = Astro.props;
         tag.dataset.filter = "true";
         filterList.push(tag.dataset.tag);
       }
-      console.log("filterList", filterList);
       filterPortfolioItems(filterList, portfolioItems);
     });
   });

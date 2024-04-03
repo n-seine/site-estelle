@@ -1,14 +1,12 @@
 ---
 import ProjectDetails from "../components/storyblok/ProjectDetails.astro";
 const { story } = Astro.props;
-console.log("story", story);
 import { storyblokEditable, renderRichText } from "@storyblok/astro";
 import ClickableImage from "../components/ClickableImage.astro";
 import PageTitle from "../components/PageTitle.astro";
 import Image from "astro/components/Image.astro";
 const blok = story.content.details[0];
 const displayVideo = blok.vimeo || blok.youtube;
-console.log("blok", blok);
 ---
 
 <PageTitle
