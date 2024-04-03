@@ -66,7 +66,7 @@ const displayVideo = blok.vimeo || blok.youtube;
     {
       blok.content.map((section) => (
         <section class="mt-12">
-          <h3>{section.title}</h3>
+          {section.title && <h3>{section.title}</h3>}
           <div
             set:html={renderRichText(section.content)}
             class="prose prose-lg max-w-3xl prose-neutral prose-p:text-neutral-600 prose-a:no-underline prose-a:text-neutral-800 hover:prose-a:underline"
