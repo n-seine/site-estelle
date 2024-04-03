@@ -31,7 +31,9 @@ export default defineConfig({
       https: true,
     },
   },
-  site: "https://estelle-chauvard.com/",
+  site: STORYBLOK_IS_PREVIEW
+    ? "https://fantastic-fudge-691ec9.netlify.app/"
+    : "https://estelle-chauvard.com/",
   integrations: [
     tailwind(),
     storyblok({
