@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/netlify": "^5.0.0",
     "@astrojs/react": "^3.0.9",
-    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/sitemap": "^3.1.2",
     "@astrojs/tailwind": "^5.1.0",
     "@fontsource/pt-serif": "^5.0.19",
     "@fontsource/source-sans-pro": "^5.0.8",

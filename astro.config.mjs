@@ -31,7 +31,7 @@ export default defineConfig({
       https: true,
     },
   },
-  site: "https://fantastic-fudge-691ec9.netlify.app/",
+  site: "https://estelle-chauvard.com/",
   integrations: [
     tailwind(),
     storyblok({
@@ -47,7 +47,9 @@ export default defineConfig({
       bridge: STORYBLOK_IS_PREVIEW === "yes" ? true : false,
     }),
     react(),
-    sitemap(),
+    sitemap({
+      filter: (page) => page !== "http://estelle-chauvard.com/contact-success",
+    }),
   ],
   prefetch: true,
   adapter:
