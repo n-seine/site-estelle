@@ -1,0 +1,60 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PortfolioItem from "../components/PortfolioItem.astro";
+import { useStoryblokApi } from "@storyblok/astro";
+import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
+import PageTitle from "../components/PageTitle.astro";
+import Splash from "../components/Splash.astro";
+import PagesLayout from "../layouts/PagesLayout.astro";
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get("cdn/stories/home", {
+  version:
+    import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
+});
+
+const content = data.story.content;
+---
+
+<PagesLayout title="Estelle Chauvard - projets et portfolio">
+  <PageTitle title="portfolio" />
+
+  <StoryblokComponent blok={content} />
+  <!-- <ul
+    class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 md:gap-12 w-full md:w-11/12 max-w-7xl grid-flow-dense"
+    >
+  </ul> -->
+</PagesLayout>
+
+<script>
+  const modal = document.getElementById("modal");
+  const success = document.createElement("div");
+  modal?.classList.remove("hidden");
+
+  success.innerHTML = `
+        <div class=" bg-neutral-100 w-full h-full flex flex-col justify-center items-center px-6 py-3 md:px-20 md:py-10 text-center ">
+          <h1
+            class="text-3xl md:text-5xl lg:text-6xl  font-extrabold text-neutral-800 tracking-wide"
+          >
+            Merci !
+          </h1>
+          <p
+            class="text-lg md:text-xl lg:text-3xl text-neutral-600 font-light pt-3 tracking-wide"
+          >
+            Votre message a bien été envoyé.
+          </p>
+          <p
+            class="text-lg md:text-xl lg:text-3xl  text-neutral-600 font-light tracking-wide"
+          >
+            Nous allons le traiter dans les plus brefs délais.
+          </p>
+        </div>
+      `;
+  //Hide modal when clicked
+  const hideModal = () => {
+    modal?.classList.add("hidden");
+  };
+  modal?.appendChild(success);
+  modal?.addEventListener("click", (e) => {
+    hideModal();
+  });
+</script>
