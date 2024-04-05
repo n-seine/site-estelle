@@ -77,7 +77,8 @@ const displayVideo = blok.vimeo || blok.youtube;
                 <ClickableImage
                   picture={picture}
                   alt={
-                    picture.alt || "Image illustrant le projet" + story.title
+                    picture.alt ||
+                    "Image illustrant le projet" + (story.title || "")
                   }
                 />
               </li>
