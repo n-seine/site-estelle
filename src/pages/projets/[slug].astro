@@ -26,44 +26,55 @@ export async function getStaticPaths() {
   });
 }
 
-let content;
+const sbApi = useStoryblokApi();
+const { data } = await sbApi.get("cdn/stories/", {
+  version: "draft",
+  content_type: "project",
+});
 
+let retrievedProject = {
+  slug: "",
+  name: "",
+  content: { details: [{ alternativeLayout: false }] },
+};
+
+//Preview mode
 if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
   const { slug } = Astro.params;
-  const sbApi = useStoryblokApi();
-
-  const { data } = await sbApi.get("cdn/stories/", {
-    version:
-      import.meta.env.STORYBLOK_IS_PREVIEW === "yes" ? "draft" : "published",
-    content_type: "project",
-  });
+  console.log("slug", slug);
 
   const project = data.stories.find(
     (story: { slug: string }) => story.slug === slug
   );
-  const projectIndex = data.stories.findIndex(
-    (story: { slug: string }) => story.slug === slug
-  );
-  content = project.story;
+  console.log("project", project);
 
-  const nextProjectSlug =
-    data.stories[projectIndex + 1].full_slug || data.stories[0].full_slug;
-  const previousProjectSlug =
-    data.stories[projectIndex - 1].full_slug ||
-    data.stories[data.stories.length - 1].full_slug;
+  retrievedProject = project;
+  console.log("content", retrievedProject);
 } else {
   const { story } = Astro.props;
-  content = story;
+  retrievedProject = story;
+  console.log("staticcontent", retrievedProject);
 }
-const altLayout = content.content.details[0].alternativeLayout;
+
+const projectIndex = data.stories.findIndex(
+  (story: { slug: string }) => story.slug === retrievedProject.slug
+);
+
+const nextProjectSlug =
+  data.stories[projectIndex + 1].full_slug || data.stories[0].full_slug;
+const previousProjectSlug =
+  data.stories[projectIndex - 1].full_slug ||
+  data.stories[data.stories.length - 1].full_slug;
+console.log("nextProjectSlug", nextProjectSlug);
+const altLayout = retrievedProject.content.details[0].alternativeLayout;
 ---
 
-<PagesLayout title={"Estelle Chauvard - " + content.name}>
+<PagesLayout title={"Estelle Chauvard - " + retrievedProject.name}>
   {
     altLayout ? (
-      <AltProjectLayout story={content} />
+      <AltProjectLayout story={retrievedProject} />
     ) : (
-      <ProjectLayout story={content} />
+      <ProjectLayout story={retrievedProject} />
     )
   }
 </PagesLayout>
