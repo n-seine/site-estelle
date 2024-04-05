@@ -27,7 +27,6 @@ export async function getStaticPaths() {
 }
 
 const { story } = Astro.props;
-console.log("story", story);
 
 let retrievedProject = {
   slug: "",
@@ -51,7 +50,7 @@ if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
   console.log("project", project);
 
   retrievedProject = project;
-  console.log("content", retrievedProject);
+  console.log("content", retrievedProject.content);
 } else {
   //SSG mode
   const { story } = Astro.props;
@@ -83,52 +82,57 @@ console.log("altLayout", altLayout);
   }
 </PagesLayout>
 
-<script>
-  const getUrl = (url: string) =>
-    url.replace("//a.storyblok.com", "//a2.storyblok.com");
-
-  const modal = document.getElementById("modal");
-  const pictureContainer = document.createElement("img");
-
-  modal?.appendChild(pictureContainer);
-
-  pictureContainer.classList.add(
-    "scale-0",
-    "transition-all",
-    "duration-300",
-    "max-w-screen",
-    "p-4",
-    "md:p-16",
-    "lg:p-24",
-    "max-h-screen"
-  );
+<script is:inline>
+  // function getUrl(url) {
+  //   url.replace("//a.storyblok.com", "//a2.storyblok.com")}
 
   //Show modal when image is clicked
-  const showModal = (image: HTMLElement) => {
-    pictureContainer.src = getUrl(image.dataset.largeImage!);
-    modal?.classList.remove("hidden");
-    setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
-  };
-  //Hide modal when clicked
-  const hideModal = () => {
-    modal?.classList.add("hidden");
-    pictureContainer?.classList.remove("scale-100");
-    setTimeout(() => (pictureContainer.src = ""), 500);
-  };
 
-  modal?.addEventListener("click", hideModal);
-  const images = document.getElementsByClassName(
-    "clickable-picture"
-  ) as HTMLCollectionOf<HTMLElement>;
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    image.addEventListener("click", (e) => {
-      e.preventDefault();
-      showModal(image);
-    });
-    image.addEventListener("mouseover", (e) => {
-      new Image().src = getUrl(image.dataset.largeImage!);
-    });
+  function addEventListenerToPictures(pictureContainer, modal, images) {
+    function showModal(image, modal, pictureContainer) {
+      pictureContainer.src = image.dataset.largeImage;
+      modal?.classList.remove("hidden");
+      setTimeout(() => pictureContainer?.classList.add("scale-100"), 1);
+    }
+    //Hide modal when clicked
+    function hideModal(modal, pictureContainer) {
+      modal?.classList.add("hidden");
+      pictureContainer?.classList.remove("scale-100");
+      setTimeout(() => (pictureContainer.src = ""), 500);
+    }
+    modal?.appendChild(pictureContainer);
+    modal?.addEventListener("click", (e) => hideModal(modal, pictureContainer));
+
+    pictureContainer.classList.add(
+      "scale-0",
+      "transition-all",
+      "duration-300",
+      "max-w-screen",
+      "p-4",
+      "md:p-16",
+      "lg:p-24",
+      "max-h-screen"
+    );
+
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      image.addEventListener("click", (e) => {
+        e.preventDefault();
+        showModal(image, modal, pictureContainer);
+      });
+      image.addEventListener("mouseover", (e) => {
+        new Image().src = image.dataset.largeImage;
+      });
+    }
   }
+
+  function setAllEventListenersOnPage() {
+    const modal = document.getElementById("modal");
+    const pictureContainer = document.createElement("img");
+    const images = document.getElementsByClassName("clickable-picture");
+    console.log("images", images);
+    addEventListenerToPictures(pictureContainer, modal, images);
+  }
+  setAllEventListenersOnPage();
 </script>
 ---
