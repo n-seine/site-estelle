@@ -1,0 +1,55 @@
+---
+interface Props {
+  previous: { slug: string; name: string };
+  next: { slug: string; name: string };
+}
+const { previous, next } = Astro.props;
+console.log("next", next);
+---
+
+<div
+  class="w-full sm:w-11/12 md:w-10/12 flex flex-row justify-between mx-auto mt-24 md:text-lg lg:text-xl xl:text-2xl"
+>
+  <a class="group text-left hover:text-primary" href={previous.slug}>
+    <div class="flex flex-row items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width=" 0.2"
+        stroke="currentColor"
+        class="w-12 h-12 lg:w-32 lg:h-32 group-hover:scale-150 transition-transform"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+      </svg>
+      <div>
+        <p class="font-bold">Projet précédent</p>
+        <p class="font-light">{previous.name}</p>
+      </div>
+    </div>
+  </a>
+  <a class="group text-left hover:text-primary" href={next.slug}>
+    <div class="flex flex-row-reverse items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width=" 0.2"
+        stroke="currentColor"
+        class="rotate-180 w-12 h-12 lg:w-32 lg:h-32 group-hover:scale-150 transition-transform"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+      </svg>
+      <div>
+        <p class="font-bold">Projet suivant</p>
+        <p class="font-light">{next.name}</p>
+      </div>
+    </div>
+  </a>
+</div>

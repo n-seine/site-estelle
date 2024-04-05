@@ -1,14 +1,24 @@
 ---
 import { useStoryblokApi } from "@storyblok/astro";
-import StoryblokComponent from "@storyblok/astro/StoryblokComponent.astro";
-import Layout from "../../layouts/Layout.astro";
-import ProjectDetails from "../../components/storyblok/ProjectDetails.astro";
-import PageTitle from "../../components/PageTitle.astro";
 import ProjectLayout from "../../layouts/ProjectLayout.astro";
 import AltProjectLayout from "../../layouts/AltProjectLayout.astro";
 import PagesLayout from "../../layouts/PagesLayout.astro";
+import OtherProjects from "../../components/OtherProjects.astro";
 
-export async function getStaticPaths() {
+interface Project {
+  slug: string;
+  full_slug: string;
+  name: string;
+  content: {
+    details: [
+      {
+        alternativeLayout: boolean;
+      },
+    ];
+  };
+}
+
+const getAllStories = async () => {
   const sbApi = useStoryblokApi();
 
   const { data } = await sbApi.get("cdn/stories", {
@@ -18,6 +28,10 @@ export async function getStaticPaths() {
   });
 
   const stories = Object.values(data.stories);
+  return stories as Project[];
+};
+export async function getStaticPaths() {
+  const stories = await getAllStories();
   return stories.map((story: any) => {
     return {
       params: { slug: story.slug },
@@ -25,8 +39,6 @@ export async function getStaticPaths() {
     };
   });
 }
-
-const { story } = Astro.props;
 
 let retrievedProject = {
   slug: "",
@@ -37,7 +49,6 @@ let retrievedProject = {
 //Preview mode
 if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
   const { slug } = Astro.params;
-  console.log("slug", slug);
   const sbApi = useStoryblokApi();
   const { data } = await sbApi.get("cdn/stories/", {
     version: "draft",
@@ -47,37 +58,53 @@ if (import.meta.env.STORYBLOK_IS_PREVIEW === "yes") {
   const project = data.stories.find(
     (story: { slug: string }) => story.slug === slug
   );
-  console.log("project", project);
 
   retrievedProject = project;
-  console.log("content", retrievedProject.content);
 } else {
   //SSG mode
   const { story } = Astro.props;
-  console.log("story", story);
   retrievedProject = story;
-  console.log("staticcontent", retrievedProject);
 }
 
-//const projectIndex = data.stories.findIndex(
-//  (story: { slug: string }) => story.slug === retrievedProject.slug
-//);//
-//const nextProjectSlug =
-//  data.stories[projectIndex + 1].full_slug || data.stories[0].full_slug;
-//const previousProjectSlug =
-//  data.stories[projectIndex - 1].full_slug ||
-//  data.stories[data.stories.length - 1].full_slug;
-//console.log("nextProjectSlug", nextProjectSlug);
+const stories = await getAllStories();
+const projectIndex = stories.findIndex(
+  (story) => story?.slug === retrievedProject.slug
+);
+const nextProject = {
+  slug:
+    projectIndex === stories.length - 1
+      ? stories[0].slug
+      : stories[projectIndex + 1].slug,
+  name:
+    projectIndex === stories.length - 1
+      ? stories[0].name
+      : stories[projectIndex + 1].name,
+};
+const previousProject = {
+  slug:
+    projectIndex === 0
+      ? stories[stories.length - 1].slug
+      : stories[projectIndex - 1].slug,
+  name:
+    projectIndex === 0
+      ? stories[stories.length - 1].name
+      : stories[projectIndex - 1].name,
+};
 const altLayout = retrievedProject.content.details[0].alternativeLayout;
-console.log("altLayout", altLayout);
 ---
 
 <PagesLayout title={"Estelle Chauvard - " + retrievedProject.name}>
   {
     altLayout ? (
-      <AltProjectLayout story={retrievedProject} />
+      <>
+        <AltProjectLayout story={retrievedProject} />
+        <OtherProjects previous={previousProject} next={nextProject} />
+      </>
     ) : (
-      <ProjectLayout story={retrievedProject} />
+      <>
+        <ProjectLayout story={retrievedProject} />
+        <OtherProjects previous={previousProject} next={nextProject} />
+      </>
     )
   }
 </PagesLayout>
@@ -135,4 +162,3 @@ console.log("altLayout", altLayout);
   }
   setAllEventListenersOnPage();
 </script>
----
