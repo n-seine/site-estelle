@@ -10,7 +10,10 @@ console.log("next", next);
 <div
   class="w-full sm:w-11/12 md:w-10/12 flex flex-row justify-between mx-auto mt-24 md:text-lg lg:text-xl xl:text-2xl"
 >
-  <a class="group text-left hover:text-primary" href={previous.slug}>
+  <a
+    class="group text-left hover:text-primary"
+    href={Astro.site + "projets/" + previous.slug}
+  >
     <div class="flex flex-row items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
