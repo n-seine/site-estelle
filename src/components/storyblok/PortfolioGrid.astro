@@ -102,7 +102,7 @@ const { blok } = Astro.props;
   }
 </ul>
 
-<script>
+<script is:inline>
   const filterPortfolioItems = (filtersArray, portfolioItems) => {
     if (filtersArray.length === 0) {
       portfolioItems.forEach((element) => {
