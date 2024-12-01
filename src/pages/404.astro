@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import lapin from "../assets/lapin-nez-web.webp";
+---
+
+<Layout title="404 - Page introuvable">
+  <div class="h-screen flex flex-col justify-center items-center">
+    <Image
+      src={lapin}
+      alt=""
+      aria-hidden
+      class="rotate-180 trans pb-10 h-auto w-auto"
+      height={200}
+      width={100}
+    />
+    <h1 class="text-5xl font-bold text-neutral-800">404</h1>
+    <p class="text-2xl font-bold text-purple-500">Page introuvable</p>
+    <p class="text-2xl text-purple-300">Oups, cette page n'existe pas !</p>
+    <p
+      class="text-lg text-neutral-600 font-thin w-1/2 mx-auto maw-w-3xl pt-6 lg:px-32"
+    >
+      Ou plus. Ou pas encore. Enfin, quelque chose s'est produit qui n'aurait
+      manifestement jamais dû se produire. Vous m'en voyez navrée.
+    </p>
+    <a
+      href="/"
+      class="text-lg bg-neutral-800 text-white px-6 py-3 mt-12 hover:bg-primary"
+      >Retourner sur la page d'accueil</a
+    >
+  </div>
+</Layout>

@@ -34,7 +34,10 @@ console.log("next", next);
       </div>
     </div>
   </a>
-  <a class="group text-left hover:text-primary" href={next.slug}>
+  <a
+    class="group text-left hover:text-primary"
+    href={Astro.site + "projets/" + next.slug}
+  >
     <div class="flex flex-row-reverse items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
